@@ -116,12 +116,12 @@
                window.location.href = "/success";
                return;
              }
-             if (in_matches) {
-               $("#message").html("You already found " + txt);
-             }
              if (matched && in_jumble && !(in_matches)) {
                $("#results").html(results); // display results
                $("#attempt").val(""); // clear textbox
+             }
+             else if (in_matches) {
+               $("#message").html("You already found " + txt);
              }
              else if (!in_jumble) {
                $("#message").html(txt + " can't be made from these letters");

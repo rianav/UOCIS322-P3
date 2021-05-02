@@ -91,6 +91,7 @@ def check():
     text = request.args.get("text", type=str)
     jumble = flask.session["jumble"]
     matches = flask.session.get("matches", [])  # Default to empty list
+    in_matches = (text + " ") in matches
     # matches = request.args.get("results", type=str)
     app.logger.debug(matches)
 
@@ -98,7 +99,7 @@ def check():
     in_jumble = LetterBag(jumble).contains(text)
     matched = WORDS.has(text)
     # Respond appropriately
-    if matched and in_jumble and not (text in matches):
+    if matched and in_jumble and not ((text + " ") in matches):
         # Cool, they found a new word
         matches.append(text + " ")
         flask.session["matches"] = matches
@@ -118,7 +119,7 @@ def check():
        return flask.redirect(flask.url_for("success"))
     else:
     """
-    rslt = {"in_matches": text in matches, "results": matches, "matched": matched, "in_jumble": in_jumble, "done": len(matches) >= flask.session["target_count"]}
+    rslt = {"in_matches": in_matches, "results": matches, "matched": matched, "in_jumble": in_jumble, "done": len(matches) >= flask.session["target_count"]}
     return flask.jsonify(result=rslt)
 
 
